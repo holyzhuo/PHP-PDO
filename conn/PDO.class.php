@@ -103,6 +103,7 @@ class DB
             $this->_sQuery     = $this->_pdo->prepare($this->buildParams($query, $this->_parameters));
 
             if (!empty($this->_parameters)) {
+                //set array start from 1
                 if (array_key_exists(0, $parameters)) {
                     $parametersType = true;
                     array_unshift($this->_parameters, "");
@@ -110,6 +111,7 @@ class DB
                 } else {
                     $parametersType = false;
                 }
+                var_dump($this->_parameters);echo "</br>";
                 foreach ($this->_parameters as $column => $value) {
                     $this->_sQuery->bindParam($parametersType ? intval($column) : ":" . $column, $this->_parameters[$column]); //It would be query after loop end(before 'sQuery->execute()').It is wrong to use $value.
                 }
@@ -131,6 +133,7 @@ class DB
         if (!empty($params)) {
             $rawStatement = explode(" ", $query);
             foreach ($rawStatement as $value) {
+                //replace where in (?)
                 if (strtolower($value) == 'in') {
                     return str_replace("(?)", "(" . implode(",", array_fill(0, count($params), "?")) . ")", $query);
                 }

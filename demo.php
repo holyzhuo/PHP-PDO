@@ -12,5 +12,5 @@ define('DBUser', 'root');
 define('DBPassword', 'root');
 
 $DB = new Db(DBHost, DBName, DBUser, DBPassword);
-$res = $DB->query("select * from table where id=:id", array('id'=>6));
+$res = $DB->query("select * from simple where id=?", array(6));
 print_r($res);
